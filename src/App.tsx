@@ -1,16 +1,13 @@
-import styled from 'styled-components'
-
-const Componente1 = styled.h1`
-  font-family: ${(props) => props.theme.fontFamily.roboto};
-  font-weight: ${(props) => props.theme.fontWeight};
-  font-size: ${(props) => props.theme.fontSize[100]};
-`
+import { Header } from './components/header'
+import { PageWrapper } from './styles'
+import { Home } from './pages/home'
 
 function App() {
   return (
-    <>
-      <Componente1>Fala galera</Componente1>
-    </>
+    <PageWrapper>
+      <Header />
+      <Home />
+    </PageWrapper>
   )
 }
 

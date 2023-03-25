@@ -8,4 +8,12 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
 }
 
+body {
+  background: ${(props) => props.theme.colors.base.background};
+}
+
+body, textarea, input.button {
+  font-family: ${(props) => props.theme.fontFamily.roboto};
+  line-height: ${(props) => props.theme.lineHeight[200]};
+}
 `
