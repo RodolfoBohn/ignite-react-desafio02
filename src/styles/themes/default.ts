@@ -60,4 +60,4 @@ export const defaultTheme = {
     roboto: "'Roboto', sans-serif",
   },
   lineHeight: { 200: '1.3', 400: '1.6' },
-}
+} as const

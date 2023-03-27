@@ -1,13 +1,11 @@
-import { Header } from './components/header'
-import { PageWrapper } from './styles'
-import { Home } from './pages/home'
+import { Router } from './routes'
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
   return (
-    <PageWrapper>
-      <Header />
-      <Home />
-    </PageWrapper>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   )
 }
 
