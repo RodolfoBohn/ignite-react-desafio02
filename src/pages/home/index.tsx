@@ -9,27 +9,15 @@ import {
   Tag,
 } from './styles'
 import coffeeBanner from '../../assets/coffee-banner.png'
-import arabe from '../../assets/coffees-images/arabe.png'
-import cafeComLeite from '../../assets/coffees-images/cafe-com-leite.png'
-import capuccino from '../../assets/coffees-images/capuccino.png'
-import chocolateQuente from '../../assets/coffees-images/chocolate-quente.png'
-import cubano from '../../assets/coffees-images/cubano.png'
-import expressoAmericano from '../../assets/coffees-images/expresso-americano.png'
-import expressoCremoso from '../../assets/coffees-images/expresso-cremoso.png'
-import expressoGelado from '../../assets/coffees-images/expresso-gelado.png'
-import expressoTradicional from '../../assets/coffees-images/expresso-tradicional.png'
-import havaiano from '../../assets/coffees-images/havaiano.png'
-import irlandes from '../../assets/coffees-images/irlandes.png'
-import latte from '../../assets/coffees-images/latte.png'
-import mocaccino from '../../assets/coffees-images/mocaccino.png'
-import macchiato from '../../assets/coffees-images/macchiato.png'
+import { CoffeeForm } from './components/form'
+import { CoffeeImage, CoffeeImageType } from '../../components/coffee-image'
 
-interface CoffeeProps {
+export interface CoffeeProps {
   name: string
   description: string
   tags: string[]
   value: number
-  image: string
+  image: CoffeeImageType
 }
 
 const EXPRESSO_TRADICIONAL: CoffeeProps = {
@@ -37,7 +25,7 @@ const EXPRESSO_TRADICIONAL: CoffeeProps = {
   description: 'O tradicional café feito com água quente e grãos moídos',
   tags: ['tradicional'],
   value: 9.9,
-  image: expressoTradicional,
+  image: 'expressoTradicional',
 }
 
 const EXPRESSO_AMERCANO: CoffeeProps = {
@@ -45,28 +33,28 @@ const EXPRESSO_AMERCANO: CoffeeProps = {
   description: 'Expresso diluído, menos intenso que o tradicional',
   tags: ['tradicional'],
   value: 9.9,
-  image: expressoAmericano,
+  image: 'expressoAmericano',
 }
 const EXPRESSO_CREMOSO: CoffeeProps = {
   name: 'Expresso Cremoso',
   description: 'Café expresso tradicional com espuma cremosa',
   tags: ['tradicional'],
   value: 9.9,
-  image: expressoCremoso,
+  image: 'expressoCremoso',
 }
 const EXPRESSO_GELADO: CoffeeProps = {
   name: 'Expresso Gelado',
   description: 'Bebida preparada com café expresso e cubos de gelo',
   tags: ['tradicional', 'gelado'],
   value: 9.9,
-  image: expressoGelado,
+  image: 'expressoGelado',
 }
 const CAFE_COM_LEITE: CoffeeProps = {
   name: 'Café com Leite',
   description: 'Meio a meio de expresso tradicional com leite vaporizado',
   tags: ['tradicional', 'com leite'],
   value: 9.9,
-  image: cafeComLeite,
+  image: 'cafeComLeite',
 }
 
 const LATTE: CoffeeProps = {
@@ -75,7 +63,7 @@ const LATTE: CoffeeProps = {
     'Uma dose de café expresso com o dobro de leite e espuma cremosa',
   tags: ['tradicional', 'com leite'],
   value: 9.9,
-  image: latte,
+  image: 'latte',
 }
 
 const CAPUCCINO: CoffeeProps = {
@@ -84,28 +72,28 @@ const CAPUCCINO: CoffeeProps = {
     'Bebida com canela feita de doses iguais de café, leite e espuma',
   tags: ['tradicional', 'com leite'],
   value: 9.9,
-  image: capuccino,
+  image: 'capuccino',
 }
 const MACCHIATO: CoffeeProps = {
   name: 'Macchiato',
   description: 'Café expresso misturado com um pouco de leite quente e espuma',
   tags: ['tradicional', 'com leite'],
   value: 9.9,
-  image: macchiato,
+  image: 'macchiato',
 }
 const MOCACCINO: CoffeeProps = {
   name: 'Mocaccino',
   description: 'Café expresso com calda de chocolate, pouco leite e espuma',
   tags: ['tradicional', 'com leite'],
   value: 9.9,
-  image: mocaccino,
+  image: 'mocaccino',
 }
 const CHOCOLATE_QUENTE: CoffeeProps = {
   name: 'Chocolate Quente',
   description: 'Bebida feita com chocolate dissolvido no leite quente e café',
   tags: ['tradicional', 'com leite'],
   value: 9.9,
-  image: chocolateQuente,
+  image: 'chocolateQuente',
 }
 const CUBANO: CoffeeProps = {
   name: 'cubano',
@@ -113,21 +101,21 @@ const CUBANO: CoffeeProps = {
     'Drink gelado de café expresso com rum, creme de leite e hortelã',
   tags: ['especial', 'alcoólico', 'gelado'],
   value: 9.9,
-  image: cubano,
+  image: 'cubano',
 }
 const HAVAIANO: CoffeeProps = {
   name: 'Havaiano',
   description: 'Bebida adocicada preparada com café e leite de coco',
   tags: ['especial'],
   value: 9.9,
-  image: havaiano,
+  image: 'havaiano',
 }
 const ARABE: CoffeeProps = {
   name: 'Árabe',
   description: 'Bebida preparada com grãos de café árabe e especiarias',
   tags: ['especial'],
   value: 9.9,
-  image: arabe,
+  image: 'arabe',
 }
 
 const IRLANDES: CoffeeProps = {
@@ -135,7 +123,7 @@ const IRLANDES: CoffeeProps = {
   description: 'Bebida preparada com grãos de café árabe e especiarias',
   tags: ['especial', 'alcoólico'],
   value: 9.9,
-  image: irlandes,
+  image: 'irlandes',
 }
 
 export const coffeesList: CoffeeProps[] = [
@@ -201,7 +189,7 @@ export const Home = () => {
         <div>
           {coffeesList.map((coffee) => (
             <CoffeeCard key={coffee.name}>
-              <img src={coffee.image} alt={coffee.name} />
+              <CoffeeImage coffee={coffee.image} />
               <div>
                 {coffee.tags.map((tag) => (
                   <Tag key={tag}>{tag.toUpperCase()}</Tag>
@@ -209,19 +197,7 @@ export const Home = () => {
               </div>
               <h3>{coffee.name}</h3>
               <p>{coffee.description}</p>
-              <form>
-                <label htmlFor="quantity">
-                  <span>R$ </span>
-                  {coffee.value.toLocaleString('pt-br', {
-                    minimumFractionDigits: 2,
-                  })}
-                </label>
-
-                <input id="quantity" type={'number'} min={0} />
-                <button type="submit">
-                  <ShoppingCart weight="fill" size={22} />
-                </button>
-              </form>
+              <CoffeeForm coffee={coffee} />
             </CoffeeCard>
           ))}
         </div>
