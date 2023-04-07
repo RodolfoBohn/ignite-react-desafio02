@@ -6,9 +6,13 @@ import {
   ComplementInput,
   ConfirmOrderButton,
   ContentWrapper,
+  GroupInputWrapper,
+  InputWrapper,
   MainWrapper,
   NeighborhoodInput,
   NumberInput,
+  PaymentButton,
+  PaymentFormError,
   PaymentWrapper,
   ShippingWrapper,
   StateInput,
@@ -28,8 +32,60 @@ import {
 import { useOrderProvider } from '../../contexts/order-context'
 import { OrderItem } from './components/order-item'
 
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+// eslint-disable-next-line no-unused-vars
+enum PaymentFormValues {
+  // eslint-disable-next-line no-unused-vars
+  credito = 'credito',
+  // eslint-disable-next-line no-unused-vars
+  debito = 'debito',
+  // eslint-disable-next-line no-unused-vars
+  dinheiro = 'dinheiro',
+}
+
+const shippingPaymentValidationSchema = z.object({
+  cep: z
+    .string()
+    .trim()
+    .nonempty('O Campo CEP é obrigatório')
+    .length(8, 'Digite o CEP completo'),
+  rua: z.string().trim().nonempty('O campo Rua é obrigatório'),
+  numero: z.coerce.number(),
+  complemento: z.string().trim(),
+  bairro: z.string().trim().nonempty('O campo Bairro é obrigatório'),
+  cidade: z.string().trim().nonempty('O campo Cidade é obrigatório'),
+  uf: z
+    .string()
+    .trim()
+    .nonempty('O campo UF é obrigatório')
+    .length(2, 'Digite uma UF válida'),
+  formaPagamento: z.nativeEnum(PaymentFormValues, {
+    errorMap: (issue, ctx) => {
+      return { message: 'Selecione a forma de pagamento' }
+    },
+  }),
+})
+
+type ShippingPaymentFormType = z.infer<typeof shippingPaymentValidationSchema>
+
 export const Shipping = () => {
   const { order } = useOrderProvider()
+
+  const form = useForm<ShippingPaymentFormType>({
+    resolver: zodResolver(shippingPaymentValidationSchema),
+    shouldFocusError: false,
+  })
+
+  const { register, handleSubmit, formState } = form
+
+  const { errors } = formState
+  console.log(errors)
+  function onSubmit(data: ShippingPaymentFormType) {
+    console.log(data)
+  }
   return (
     <ShippingWrapper>
       <MainWrapper>
@@ -42,18 +98,68 @@ export const Shipping = () => {
               <span>Informe o endereço onde deseja receber seu pedido</span>
             </div>
           </TitleWrapper>
-          <AddressForm>
-            <CEPInput placeholder="CEP" />
-            <StreeetInput placeholder="Rua" />
-            <div>
-              <NumberInput placeholder="Número" />
-              <ComplementInput placeholder="Complemento" />
-            </div>
-            <div>
-              <NeighborhoodInput placeholder="Bairro" />
-              <CityInput placeholder="Cidade" />
-              <StateInput placeholder="UF" />
-            </div>
+          <AddressForm
+            id="address-payment-form"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <InputWrapper hasError={!!errors.cep}>
+              <CEPInput
+                placeholder="CEP"
+                maxLength={8}
+                {...register('cep')}
+                // exemplo para o caso de sobrescrever o onChange, como por exemplo para a adição de uma mascara manual
+                onChange={(e) => {
+                  register('cep').onChange(e)
+                }}
+              />
+              {errors.cep && <span>{errors.cep.message}</span>}
+            </InputWrapper>
+
+            <InputWrapper hasError={!!errors.rua}>
+              <StreeetInput placeholder="Rua" {...register('rua')} />
+              {errors.rua && <span>{errors.rua.message}</span>}
+            </InputWrapper>
+
+            <GroupInputWrapper>
+              <InputWrapper hasError={!!errors.numero}>
+                <NumberInput placeholder="Número" {...register('numero')} />
+                {errors.numero && <span>{errors.numero.message}</span>}
+              </InputWrapper>
+
+              <InputWrapper hasError={!!errors.complemento} useMaxWidth>
+                <ComplementInput
+                  placeholder="Complemento"
+                  {...register('complemento')}
+                />
+                {errors.complemento && (
+                  <span>{errors.complemento.message}</span>
+                )}
+              </InputWrapper>
+            </GroupInputWrapper>
+
+            <GroupInputWrapper>
+              <InputWrapper hasError={!!errors.bairro}>
+                <NeighborhoodInput
+                  placeholder="Bairro"
+                  {...register('bairro')}
+                />
+                {errors.bairro && <span>{errors.bairro.message}</span>}
+              </InputWrapper>
+
+              <InputWrapper hasError={!!errors.cidade} useMaxWidth>
+                <CityInput placeholder="Cidade" {...register('cidade')} />
+                {errors.cidade && <span>{errors.cidade.message}</span>}
+              </InputWrapper>
+
+              <InputWrapper hasError={!!errors.uf}>
+                <StateInput
+                  placeholder="UF"
+                  maxLength={2}
+                  {...register('uf')}
+                />
+                {errors.uf && <span>{errors.uf.message}</span>}
+              </InputWrapper>
+            </GroupInputWrapper>
           </AddressForm>
         </ContentWrapper>
         <ContentWrapper>
@@ -68,19 +174,45 @@ export const Shipping = () => {
             </div>
           </TitleWrapper>
           <PaymentWrapper>
-            <button>
+            <PaymentButton htmlFor="credit-card">
               <CreditCard size={16} />
               <span>CARTÃO DE CRÉDITO</span>
-            </button>
-            <button>
+              <input
+                type="radio"
+                id="credit-card"
+                value={PaymentFormValues.credito}
+                form="address-payment-form"
+                {...register('formaPagamento')}
+              />
+            </PaymentButton>
+            <PaymentButton htmlFor="debit-card">
               <Bank size={16} />
               <span>CARTÃO DE DÉBITO</span>
-            </button>
-            <button>
+              <input
+                form="address-payment-form"
+                type="radio"
+                id="debit-card"
+                value={PaymentFormValues.debito}
+                {...register('formaPagamento')}
+              />
+            </PaymentButton>
+            <PaymentButton htmlFor="cash">
               <Money size={16} />
               <span>DINHEIRO</span>
-            </button>
+              <input
+                form="address-payment-form"
+                type="radio"
+                id="cash"
+                value={PaymentFormValues.dinheiro}
+                {...register('formaPagamento')}
+              />
+            </PaymentButton>
           </PaymentWrapper>
+          {errors.formaPagamento && (
+            <PaymentFormError>
+              Selecione uma forma de pagamento
+            </PaymentFormError>
+          )}
         </ContentWrapper>
       </MainWrapper>
 
@@ -108,7 +240,9 @@ export const Shipping = () => {
               <span>R$51,99</span>
             </TotalContentWrapper>
           </TotalWrapper>
-          <ConfirmOrderButton>CONFIRMAR PEDIDO</ConfirmOrderButton>
+          <ConfirmOrderButton type="submit" form="address-payment-form">
+            CONFIRMAR PEDIDO
+          </ConfirmOrderButton>
         </ContentWrapper>
       </AsideWrapper>
     </ShippingWrapper>

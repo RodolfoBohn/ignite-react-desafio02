@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const ShippingWrapper = styled.div`
   display: flex;
@@ -55,10 +55,39 @@ export const AddressForm = styled.form`
   flex-direction: column;
   margin-top: ${(props) => props.theme.space[800]};
   gap: ${(props) => props.theme.space[400]};
-  div {
-    display: flex;
-    gap: ${(props) => props.theme.space[200]};
+`
+
+export const GroupInputWrapper = styled.div`
+  display: flex;
+  gap: ${(props) => props.theme.space[200]};
+`
+
+interface InputWrapperProps {
+  hasError?: boolean
+  useMaxWidth?: boolean
+}
+
+export const InputWrapper = styled.div<InputWrapperProps>`
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  span {
+    font-size: ${(props) => props.theme.fontSize[200]};
+    color: #ff2e2e;
   }
+  ${(props) =>
+    props.hasError &&
+    css`
+      input {
+        border-color: #ff2e2e;
+      }
+    `}
+
+  ${(props) =>
+    props.useMaxWidth &&
+    css`
+      flex: 1;
+    `}
 `
 
 const BaseInput = styled.input`
@@ -95,23 +124,38 @@ export const PaymentWrapper = styled.div`
   width: 100%;
   display: flex;
   gap: ${(props) => props.theme.space[300]};
-  button {
-    padding: ${(props) => props.theme.space[400]};
-    border: 0;
-    border-radius: 6px;
-    background: ${(props) => props.theme.colors.base.button};
-    flex: 1;
-    color: ${(props) => props.theme.colors.purple.medium};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: ${(props) => props.theme.space[200]};
-    span {
-      font-size: ${(props) => props.theme.fontSize[200]};
-      color: ${(props) => props.theme.colors.base.text};
-      white-space: nowrap;
-    }
+`
+
+export const PaymentButton = styled.label`
+  padding: ${(props) => props.theme.space[400]};
+  border: 0;
+  border-radius: 6px;
+  background: ${(props) => props.theme.colors.base.button};
+  flex: 1;
+  color: ${(props) => props.theme.colors.purple.medium};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  span {
+    font-size: ${(props) => props.theme.fontSize[200]};
+    color: ${(props) => props.theme.colors.base.text};
+    white-space: nowrap;
+    margin-left: ${(props) => props.theme.space[200]};
   }
+  input {
+    appearance: none;
+  }
+  &:has(:checked) {
+    background: green;
+  }
+`
+
+export const PaymentFormError = styled.p`
+  text-align: center;
+  margin-top: 8px;
+  color: #ff2e2e;
+  font-size: ${(props) => props.theme.fontSize[300]};
 `
 
 export const AsideWrapper = styled.aside`
