@@ -4,6 +4,7 @@ import {
   CEPInput,
   CityInput,
   ComplementInput,
+  ConfirmOrderButton,
   ContentWrapper,
   MainWrapper,
   NeighborhoodInput,
@@ -12,7 +13,10 @@ import {
   ShippingWrapper,
   StateInput,
   StreeetInput,
+  SubtotalContentWrapper,
   TitleWrapper,
+  TotalContentWrapper,
+  TotalWrapper,
 } from './styles'
 import {
   Bank,
@@ -21,8 +25,11 @@ import {
   MapPinLine,
   Money,
 } from 'phosphor-react'
+import { useOrderProvider } from '../../contexts/order-context'
+import { OrderItem } from './components/order-item'
 
 export const Shipping = () => {
+  const { order } = useOrderProvider()
   return (
     <ShippingWrapper>
       <MainWrapper>
@@ -79,7 +86,30 @@ export const Shipping = () => {
 
       <AsideWrapper>
         <h2>Cafés selecionados</h2>
-        <ContentWrapper>Opa</ContentWrapper>
+        <ContentWrapper>
+          {order.map((orderItem) => (
+            <OrderItem
+              key={orderItem.coffee.name}
+              coffee={orderItem.coffee}
+              quantity={orderItem.quantity}
+            />
+          ))}
+          <TotalWrapper>
+            <SubtotalContentWrapper>
+              <span>Total de itens</span>
+              <span>R$51,99</span>
+            </SubtotalContentWrapper>
+            <SubtotalContentWrapper>
+              <span>Entrega</span>
+              <span>R$51,99</span>
+            </SubtotalContentWrapper>
+            <TotalContentWrapper>
+              <span>Total</span>
+              <span>R$51,99</span>
+            </TotalContentWrapper>
+          </TotalWrapper>
+          <ConfirmOrderButton>CONFIRMAR PEDIDO</ConfirmOrderButton>
+        </ContentWrapper>
       </AsideWrapper>
     </ShippingWrapper>
   )

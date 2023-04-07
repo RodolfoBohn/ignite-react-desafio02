@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const ShippingWrapper = styled.div`
   display: flex;
   margin-top: 2.5rem;
-  justify-content: space-between;
+  gap: ${(props) => props.theme.space[800]};
 `
 
 export const MainWrapper = styled.main`
@@ -11,10 +11,10 @@ export const MainWrapper = styled.main`
     font-family: ${(props) => props.theme.fontFamily.baloo_2};
     font-size: ${(props) => props.theme.fontSize[500]};
     font-weight: ${(props) => props.theme.fontWeight.bold};
+    margin-bottom: ${(props) => props.theme.space[400]};
   }
   display: flex;
   flex-direction: column;
-  gap: ${(props) => props.theme.space[75]};
 `
 
 interface TitleWrapperProps {
@@ -45,6 +45,9 @@ export const TitleWrapper = styled.div<TitleWrapperProps>`
 export const ContentWrapper = styled.div`
   padding: 2.5rem;
   background: ${(props) => props.theme.colors.base.card};
+  & + & {
+    margin-top: ${(props) => props.theme.space[200]};
+  }
 `
 
 export const AddressForm = styled.form`
@@ -112,9 +115,50 @@ export const PaymentWrapper = styled.div`
 `
 
 export const AsideWrapper = styled.aside`
+  flex: 1;
   h2 {
     font-family: ${(props) => props.theme.fontFamily.baloo_2};
     font-size: ${(props) => props.theme.fontSize[500]};
     font-weight: ${(props) => props.theme.fontWeight.bold};
+    margin-bottom: ${(props) => props.theme.space[400]};
   }
+`
+
+export const TotalWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${(props) => props.theme.space[200]};
+  margin-bottom: ${(props) => props.theme.space[800]};
+`
+
+export const SubtotalContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  span {
+    font-size: ${(props) => props.theme.fontSize[300]};
+    color: ${(props) => props.theme.colors.base.text};
+  }
+`
+
+export const TotalContentWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  span {
+    font-size: ${(props) => props.theme.fontSize[600]};
+    color: ${(props) => props.theme.colors.base.subtitle};
+    font-weight: ${(props) => props.theme.fontWeight.bold};
+  }
+`
+
+export const ConfirmOrderButton = styled.button`
+  width: 100%;
+  padding: ${(props) => props.theme.space[200]};
+  background: ${(props) => props.theme.colors.yellow.medium};
+  color: ${(props) => props.theme.colors.base.white};
+  font-size: ${(props) => props.theme.fontSize[300]};
+  font-weight: ${(props) => props.theme.fontWeight.bold};
+  border: 0;
+  border-radius: 6px;
 `

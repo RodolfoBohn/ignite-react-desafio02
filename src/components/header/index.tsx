@@ -11,7 +11,7 @@ export const Header = () => {
           <MapPin size={22} weight="fill" />
           <span>Porto Alegre, RS</span>
         </Location>
-        <Cart>
+        <Cart to="/shipping">
           <ShoppingCart size={22} weight="fill" />
         </Cart>
       </LocationCartWrapper>

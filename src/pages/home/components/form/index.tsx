@@ -1,13 +1,23 @@
 import { ShoppingCart } from 'phosphor-react'
+import { FormEvent, useState } from 'react'
 import { CoffeeProps } from '../..'
+import { useOrderProvider } from '../../../../contexts/order-context'
 
 interface CoffeeFormProps {
   coffee: CoffeeProps
 }
 
-export const CoffeeForm = ({coffee}: CoffeeFormProps) => {
+export const CoffeeForm = ({ coffee }: CoffeeFormProps) => {
+  const [quantity, setQuantity] = useState(0)
+  const { addCoffeeToOrder } = useOrderProvider()
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    addCoffeeToOrder({ quantity, coffee })
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <label htmlFor="quantity">
         <span>R$ </span>
         {coffee.value.toLocaleString('pt-br', {
@@ -15,7 +25,13 @@ export const CoffeeForm = ({coffee}: CoffeeFormProps) => {
         })}
       </label>
 
-      <input id="quantity" type={'number'} min={0} />
+      <input
+        id="quantity"
+        type={'number'}
+        min={0}
+        value={quantity}
+        onChange={(event) => setQuantity(Number(event.target.value))}
+      />
       <button type="submit">
         <ShoppingCart weight="fill" size={22} />
       </button>
