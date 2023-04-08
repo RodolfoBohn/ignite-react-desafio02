@@ -35,6 +35,7 @@ import { OrderItem } from './components/order-item'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useNavigate } from 'react-router-dom'
 
 // eslint-disable-next-line no-unused-vars
 enum PaymentFormValues {
@@ -72,7 +73,8 @@ const shippingPaymentValidationSchema = z.object({
 type ShippingPaymentFormType = z.infer<typeof shippingPaymentValidationSchema>
 
 export const Shipping = () => {
-  const { order } = useOrderProvider()
+  const { order, addShippingPaymentData } = useOrderProvider()
+  const navigate = useNavigate()
 
   const form = useForm<ShippingPaymentFormType>({
     resolver: zodResolver(shippingPaymentValidationSchema),
@@ -82,9 +84,10 @@ export const Shipping = () => {
   const { register, handleSubmit, formState } = form
 
   const { errors } = formState
-  console.log(errors)
+
   function onSubmit(data: ShippingPaymentFormType) {
-    console.log(data)
+    addShippingPaymentData(data)
+    navigate('/finished-buy')
   }
   return (
     <ShippingWrapper>

@@ -1,11 +1,14 @@
 import logo from '../../assets/coffee-logo.svg'
 import { MapPin, ShoppingCart } from 'phosphor-react'
 import { Cart, HeaderBase, Location, LocationCartWrapper } from './styles'
+import { Link } from 'react-router-dom'
 
 export const Header = () => {
   return (
     <HeaderBase>
-      <img src={logo} alt="Logotipo Coffee Delivery" />
+      <Link to="/">
+        <img src={logo} alt="Logotipo Coffee Delivery" />
+      </Link>
       <LocationCartWrapper>
         <Location>
           <MapPin size={22} weight="fill" />
