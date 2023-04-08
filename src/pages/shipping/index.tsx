@@ -29,7 +29,7 @@ import {
   MapPinLine,
   Money,
 } from 'phosphor-react'
-import { useOrderProvider } from '../../contexts/order-context'
+import { useOrderContext } from '../../contexts/order-context'
 import { OrderItem } from './components/order-item'
 
 import { useForm } from 'react-hook-form'
@@ -38,7 +38,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
 
 // eslint-disable-next-line no-unused-vars
-enum PaymentFormValues {
+export enum PaymentFormValues {
   // eslint-disable-next-line no-unused-vars
   credito = 'credito',
   // eslint-disable-next-line no-unused-vars
@@ -73,7 +73,7 @@ const shippingPaymentValidationSchema = z.object({
 type ShippingPaymentFormType = z.infer<typeof shippingPaymentValidationSchema>
 
 export const Shipping = () => {
-  const { order, addShippingPaymentData } = useOrderProvider()
+  const { order, addShippingPaymentData } = useOrderContext()
   const navigate = useNavigate()
 
   const form = useForm<ShippingPaymentFormType>({
@@ -89,6 +89,7 @@ export const Shipping = () => {
     addShippingPaymentData(data)
     navigate('/finished-buy')
   }
+
   return (
     <ShippingWrapper>
       <MainWrapper>

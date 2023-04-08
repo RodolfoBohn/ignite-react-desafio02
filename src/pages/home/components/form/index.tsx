@@ -1,7 +1,7 @@
 import { ShoppingCart } from 'phosphor-react'
 import { FormEvent, useState } from 'react'
 import { CoffeeProps } from '../..'
-import { useOrderProvider } from '../../../../contexts/order-context'
+import { useOrderContext } from '../../../../contexts/order-context'
 
 interface CoffeeFormProps {
   coffee: CoffeeProps
@@ -9,7 +9,7 @@ interface CoffeeFormProps {
 
 export const CoffeeForm = ({ coffee }: CoffeeFormProps) => {
   const [quantity, setQuantity] = useState(0)
-  const { addCoffeeToOrder } = useOrderProvider()
+  const { addCoffeeToOrder } = useOrderContext()
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()

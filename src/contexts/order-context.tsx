@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
 import { CoffeeProps } from '../pages/home'
+import { PaymentFormValues } from '../pages/shipping'
 
 export interface CoffeeOrderProps {
   coffee: CoffeeProps
@@ -14,12 +15,12 @@ interface ShippingPaymentProps {
   bairro: string
   cidade: string
   uf: string
-  formaPagamento: string
+  formaPagamento: PaymentFormValues
 }
 
 interface OrderContextProps {
   order: CoffeeOrderProps[]
-  shippingPayment: ShippingPaymentProps
+  shippingPayment: ShippingPaymentProps | null
   addCoffeeToOrder: (coffee: CoffeeOrderProps) => void
   addShippingPaymentData: (addShippingPaymentData: ShippingPaymentProps) => void
 }
@@ -34,7 +35,7 @@ export const OrderContextProvider = ({
   children,
 }: OrderContextProviderProps) => {
   const [order, setOrder] = useState<CoffeeOrderProps[]>([])
-  const [paymentShipping, setPaymentShipping] =
+  const [shippingPayment, setShippingPayment] =
     useState<ShippingPaymentProps | null>(null)
 
   function addCoffeeToOrder(coffee: CoffeeOrderProps) {
@@ -42,14 +43,14 @@ export const OrderContextProvider = ({
   }
 
   function addShippingPaymentData(shippingPaymentData: ShippingPaymentProps) {
-    setPaymentShipping(shippingPaymentData)
+    setShippingPayment(shippingPaymentData)
   }
 
   return (
     <OrderContext.Provider
       value={{
         order,
-        paymentShipping,
+        shippingPayment,
         addCoffeeToOrder,
         addShippingPaymentData,
       }}
@@ -59,4 +60,4 @@ export const OrderContextProvider = ({
   )
 }
 
-export const useOrderProvider = () => useContext(OrderContext)
+export const useOrderContext = () => useContext(OrderContext)
