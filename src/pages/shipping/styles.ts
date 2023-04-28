@@ -128,7 +128,6 @@ export const PaymentWrapper = styled.div`
 
 export const PaymentButton = styled.label`
   padding: ${(props) => props.theme.space[400]};
-  border: 0;
   border-radius: 6px;
   background: ${(props) => props.theme.colors.base.button};
   flex: 1;
@@ -147,7 +146,16 @@ export const PaymentButton = styled.label`
     appearance: none;
   }
   &:has(:checked) {
-    background: green;
+    background: ${(props) => props.theme.colors.purple.light};
+    border: 1px solid;
+  }
+
+  &:not(:has(:checked)):hover {
+    transition: 0.4s;
+    background: ${(props) => props.theme.colors.base.hover};
+    span {
+      color: ${(props) => props.theme.colors.base.subtitle};
+    }
   }
 `
 
