@@ -9,9 +9,9 @@ import { Quantity } from '../../../../components/quantity'
 import { formatterMoney } from '../../../../utils/formatter'
 
 export const OrderItem = (orderItem: CoffeeOrderProps) => {
-  const { addCoffeeToOrder } = useOrderContext()
+  const { addCoffeeToOrder, removeCoffeeFromOrder } = useOrderContext()
 
-  function handleAddCoffee() {
+  function handleAddCoffeeQuantity() {
     const newOrderItem: CoffeeOrderProps = {
       ...orderItem,
       quantity: orderItem.quantity + 1,
@@ -19,12 +19,16 @@ export const OrderItem = (orderItem: CoffeeOrderProps) => {
     addCoffeeToOrder(newOrderItem)
   }
 
-  function handleRemoveCoffee() {
+  function handleRemoveCoffeeQuantity() {
     const newOrderItem: CoffeeOrderProps = {
       ...orderItem,
       quantity: orderItem.quantity - 1,
     }
     addCoffeeToOrder(newOrderItem)
+  }
+
+  function handleRemoveCoffeeFromOrder() {
+    removeCoffeeFromOrder(orderItem.coffee.name)
   }
 
   return (
@@ -37,10 +41,10 @@ export const OrderItem = (orderItem: CoffeeOrderProps) => {
             <Quantity
               minimalValue={1}
               quantity={orderItem.quantity}
-              handleAddCoffee={handleAddCoffee}
-              handleRemoveCoffee={handleRemoveCoffee}
+              handleAddCoffee={handleAddCoffeeQuantity}
+              handleRemoveCoffee={handleRemoveCoffeeQuantity}
             />
-            <RemoveButton>
+            <RemoveButton onClick={handleRemoveCoffeeFromOrder}>
               <Trash size={16} />
               <span>REMOVER</span>
             </RemoveButton>

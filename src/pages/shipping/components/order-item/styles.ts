@@ -41,6 +41,7 @@ export const RemoveButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: ${(props) => props.theme.space[50]};
+  cursor: pointer;
 
   svg {
     color: ${(props) => props.theme.colors.purple.medium};
@@ -49,5 +50,16 @@ export const RemoveButton = styled.button`
   span {
     color: ${(props) => props.theme.colors.base.text};
     font-size: ${(props) => props.theme.fontSize[200]};
+  }
+
+  &:hover {
+    transition: 0.4s;
+    background: ${(props) => props.theme.colors.base.hover};
+    span {
+      color: ${(props) => props.theme.colors.base.subtitle};
+    }
+    svg {
+      color: ${(props) => props.theme.colors.purple.dark};
+    }
   }
 `

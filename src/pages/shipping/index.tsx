@@ -74,7 +74,6 @@ const shippingPaymentValidationSchema = z.object({
 type ShippingPaymentFormType = z.infer<typeof shippingPaymentValidationSchema>
 
 export const Shipping = () => {
-  const DELIVERY_VALUE = 3.5
   const {
     order,
     freight,
@@ -252,7 +251,11 @@ export const Shipping = () => {
               <span>{formatterMoney(totalValueFromOrderWithFreight)}</span>
             </TotalContentWrapper>
           </TotalWrapper>
-          <ConfirmOrderButton type="submit" form="address-payment-form">
+          <ConfirmOrderButton
+            type="submit"
+            form="address-payment-form"
+            disabled={order.length <= 0}
+          >
             CONFIRMAR PEDIDO
           </ConfirmOrderButton>
         </ContentWrapper>

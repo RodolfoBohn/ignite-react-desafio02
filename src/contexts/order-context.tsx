@@ -32,6 +32,7 @@ interface OrderContextProps {
   totalValueFromOrderWithFreight: number
   addCoffeeToOrder: (coffee: CoffeeOrderProps) => void
   addShippingPaymentData: (addShippingPaymentData: ShippingPaymentProps) => void
+  removeCoffeeFromOrder: (coffeeName: string) => void
 }
 
 const OrderContext = createContext({} as OrderContextProps)
@@ -76,6 +77,14 @@ export const OrderContextProvider = ({
     setShippingPayment(shippingPaymentData)
   }
 
+  function removeCoffeeFromOrder(coffeeName: string) {
+    const filteredOrder = order.filter(
+      (orderItem) => orderItem.coffee.name !== coffeeName,
+    )
+
+    setOrder(filteredOrder)
+  }
+
   useEffect(() => {
     const totalValue = order.reduce((acc, orderItem) => {
       return (
@@ -96,6 +105,7 @@ export const OrderContextProvider = ({
         totalValueFromOrderWithFreight,
         addCoffeeToOrder,
         addShippingPaymentData,
+        removeCoffeeFromOrder,
       }}
     >
       {children}

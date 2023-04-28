@@ -205,4 +205,15 @@ export const ConfirmOrderButton = styled.button`
   font-weight: ${(props) => props.theme.fontWeight.bold};
   border: 0;
   border-radius: 6px;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    transition: 0.4s;
+    background: ${(props) => props.theme.colors.yellow.dark};
+  }
 `
