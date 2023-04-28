@@ -1,6 +1,6 @@
 import { CoffeeProps } from '../..'
 import { CoffeeImage } from '../../../../components/coffee-image'
-import { CoffeeQuantity } from '../quantity'
+import { CoffeeQuantity } from '../quantity-form'
 import { CoffeeWrapper, Tag } from './styles'
 
 interface Props {

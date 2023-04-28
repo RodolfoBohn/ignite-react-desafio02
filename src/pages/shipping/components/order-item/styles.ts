@@ -29,28 +29,25 @@ export const NameAndQuantityWrapper = styled.div`
     span {
       color: ${(props) => props.theme.colors.base.subtitle};
     }
-    input[type='number'] {
-      width: 4.5rem;
-      height: 2rem;
-    }
-    button {
-      padding: ${(props) => props.theme.space[75]};
-      border: 0;
-      border-radius: 6px;
-      background: ${(props) => props.theme.colors.base.button};
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: ${(props) => props.theme.space[50]};
+  }
+`
 
-      svg {
-        color: ${(props) => props.theme.colors.purple.medium};
-      }
+export const RemoveButton = styled.button`
+  padding: ${(props) => props.theme.space[75]};
+  border: 0;
+  border-radius: 6px;
+  background: ${(props) => props.theme.colors.base.button};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${(props) => props.theme.space[50]};
 
-      span {
-        color: ${(props) => props.theme.colors.base.text};
-        font-size: ${(props) => props.theme.fontSize[200]};
-      }
-    }
+  svg {
+    color: ${(props) => props.theme.colors.purple.medium};
+  }
+
+  span {
+    color: ${(props) => props.theme.colors.base.text};
+    font-size: ${(props) => props.theme.fontSize[200]};
   }
 `

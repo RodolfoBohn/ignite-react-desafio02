@@ -1,9 +1,31 @@
 import { Trash } from 'phosphor-react'
 import { CoffeeImage } from '../../../../components/coffee-image'
-import { CoffeeOrderProps } from '../../../../contexts/order-context'
-import { NameAndQuantityWrapper, Wrapper } from './styles'
+import {
+  CoffeeOrderProps,
+  useOrderContext,
+} from '../../../../contexts/order-context'
+import { NameAndQuantityWrapper, RemoveButton, Wrapper } from './styles'
+import { Quantity } from '../../../../components/quantity'
 
 export const OrderItem = (orderItem: CoffeeOrderProps) => {
+  const { addCoffeeToOrder } = useOrderContext()
+
+  function handleAddCoffee() {
+    const newOrderItem: CoffeeOrderProps = {
+      ...orderItem,
+      quantity: orderItem.quantity + 1,
+    }
+    addCoffeeToOrder(newOrderItem)
+  }
+
+  function handleRemoveCoffee() {
+    const newOrderItem: CoffeeOrderProps = {
+      ...orderItem,
+      quantity: orderItem.quantity - 1,
+    }
+    addCoffeeToOrder(newOrderItem)
+  }
+
   return (
     <Wrapper key={orderItem.coffee.name}>
       <div>
@@ -11,11 +33,16 @@ export const OrderItem = (orderItem: CoffeeOrderProps) => {
         <NameAndQuantityWrapper>
           <span>{orderItem.coffee.name}</span>
           <div>
-            <input type="number" value={orderItem.quantity} />
-            <button>
+            <Quantity
+              minimalValue={1}
+              quantity={orderItem.quantity}
+              handleAddCoffee={handleAddCoffee}
+              handleRemoveCoffee={handleRemoveCoffee}
+            />
+            <RemoveButton>
               <Trash size={16} />
               <span>REMOVER</span>
-            </button>
+            </RemoveButton>
           </div>
         </NameAndQuantityWrapper>
       </div>

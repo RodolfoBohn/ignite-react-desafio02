@@ -1,8 +1,9 @@
-import { Minus, Plus, ShoppingCart } from 'phosphor-react'
+import { ShoppingCart } from 'phosphor-react'
 import { FormEvent, useState } from 'react'
 import { CoffeeProps } from '../..'
 import { useOrderContext } from '../../../../contexts/order-context'
-import { IconWrapper, QuantityForm, QuantityWrapper } from './styles'
+import { QuantityForm } from './styles'
+import { Quantity } from '../../../../components/quantity'
 
 interface CoffeeFormProps {
   coffee: CoffeeProps
@@ -33,25 +34,11 @@ export const CoffeeQuantity = ({ coffee }: CoffeeFormProps) => {
           minimumFractionDigits: 2,
         })}
       </label>
-      <QuantityWrapper>
-        <IconWrapper
-          type="button"
-          onClick={handleRemoveCoffee}
-          disabled={quantity <= 0}
-        >
-          <Minus size={14} />
-        </IconWrapper>
-        <input
-          id="quantity"
-          type={'number'}
-          readOnly
-          min={0}
-          value={quantity}
-        />
-        <IconWrapper type="button" onClick={handleAddCoffee}>
-          <Plus size={14} />
-        </IconWrapper>
-      </QuantityWrapper>
+      <Quantity
+        quantity={quantity}
+        handleAddCoffee={handleAddCoffee}
+        handleRemoveCoffee={handleRemoveCoffee}
+      />
       <button type="submit">
         <ShoppingCart weight="fill" size={22} />
       </button>
