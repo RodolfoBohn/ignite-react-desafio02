@@ -5,12 +5,11 @@ import {
   ItemsWrapper,
   Item,
   CoffeesListWrapper,
-  CoffeeCard,
-  Tag,
 } from './styles'
 import coffeeBanner from '../../assets/coffee-banner.png'
-import { CoffeeForm } from './components/form'
-import { CoffeeImage, CoffeeImageType } from '../../components/coffee-image'
+
+import { CoffeeImageType } from '../../components/coffee-image'
+import { CoffeeCard } from './components/coffee-card'
 
 export interface CoffeeProps {
   name: string
@@ -155,6 +154,7 @@ export const Home = () => {
               qualquer hora
             </p>
           </TitleWrapper>
+
           <ItemsWrapper>
             <Item color="dark_yellow">
               <div>
@@ -184,21 +184,12 @@ export const Home = () => {
         </div>
         <img src={coffeeBanner} alt="Banner image" />
       </BannerWrapper>
+
       <CoffeesListWrapper>
         <h2>Nossos cafés</h2>
         <div>
           {coffeesList.map((coffee) => (
-            <CoffeeCard key={coffee.name}>
-              <CoffeeImage coffee={coffee.image} />
-              <div>
-                {coffee.tags.map((tag) => (
-                  <Tag key={tag}>{tag.toUpperCase()}</Tag>
-                ))}
-              </div>
-              <h3>{coffee.name}</h3>
-              <p>{coffee.description}</p>
-              <CoffeeForm coffee={coffee} />
-            </CoffeeCard>
+            <CoffeeCard key={coffee.name} coffee={coffee} />
           ))}
         </div>
       </CoffeesListWrapper>
