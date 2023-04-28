@@ -36,6 +36,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useNavigate } from 'react-router-dom'
+import { formatterMoney } from '../../utils/formatter'
 
 // eslint-disable-next-line no-unused-vars
 export enum PaymentFormValues {
@@ -73,7 +74,14 @@ const shippingPaymentValidationSchema = z.object({
 type ShippingPaymentFormType = z.infer<typeof shippingPaymentValidationSchema>
 
 export const Shipping = () => {
-  const { order, addShippingPaymentData } = useOrderContext()
+  const DELIVERY_VALUE = 3.5
+  const {
+    order,
+    freight,
+    totalValueFromOrder,
+    totalValueFromOrderWithFreight,
+    addShippingPaymentData,
+  } = useOrderContext()
   const navigate = useNavigate()
 
   const form = useForm<ShippingPaymentFormType>({
@@ -233,15 +241,15 @@ export const Shipping = () => {
           <TotalWrapper>
             <SubtotalContentWrapper>
               <span>Total de itens</span>
-              <span>R$51,99</span>
+              <span>{formatterMoney(totalValueFromOrder)}</span>
             </SubtotalContentWrapper>
             <SubtotalContentWrapper>
               <span>Entrega</span>
-              <span>R$51,99</span>
+              <span>{formatterMoney(freight)}</span>
             </SubtotalContentWrapper>
             <TotalContentWrapper>
               <span>Total</span>
-              <span>R$51,99</span>
+              <span>{formatterMoney(totalValueFromOrderWithFreight)}</span>
             </TotalContentWrapper>
           </TotalWrapper>
           <ConfirmOrderButton type="submit" form="address-payment-form">

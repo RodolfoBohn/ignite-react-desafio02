@@ -6,6 +6,7 @@ import {
 } from '../../../../contexts/order-context'
 import { NameAndQuantityWrapper, RemoveButton, Wrapper } from './styles'
 import { Quantity } from '../../../../components/quantity'
+import { formatterMoney } from '../../../../utils/formatter'
 
 export const OrderItem = (orderItem: CoffeeOrderProps) => {
   const { addCoffeeToOrder } = useOrderContext()
@@ -46,7 +47,11 @@ export const OrderItem = (orderItem: CoffeeOrderProps) => {
           </div>
         </NameAndQuantityWrapper>
       </div>
-      <strong>{orderItem.quantity * orderItem.coffee.value}</strong>
+      <strong>
+        {formatterMoney(
+          Number((orderItem.quantity * orderItem.coffee.value).toFixed(2)),
+        )}
+      </strong>
     </Wrapper>
   )
 }

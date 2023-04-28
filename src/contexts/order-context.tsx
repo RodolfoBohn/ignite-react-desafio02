@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { CoffeeProps } from '../pages/home'
 import { PaymentFormValues } from '../pages/shipping'
 
@@ -21,6 +27,9 @@ interface ShippingPaymentProps {
 interface OrderContextProps {
   order: CoffeeOrderProps[]
   shippingPayment: ShippingPaymentProps | null
+  totalValueFromOrder: number
+  freight: number
+  totalValueFromOrderWithFreight: number
   addCoffeeToOrder: (coffee: CoffeeOrderProps) => void
   addShippingPaymentData: (addShippingPaymentData: ShippingPaymentProps) => void
 }
@@ -34,7 +43,12 @@ interface OrderContextProviderProps {
 export const OrderContextProvider = ({
   children,
 }: OrderContextProviderProps) => {
+  const freight = 3.5
   const [order, setOrder] = useState<CoffeeOrderProps[]>([])
+  const [totalValueFromOrder, setTotalValueFromOrder] = useState(0)
+  const [totalValueFromOrderWithFreight, setTotalValueFromOrderWithFreight] =
+    useState(0)
+
   const [shippingPayment, setShippingPayment] =
     useState<ShippingPaymentProps | null>(null)
 
@@ -62,11 +76,24 @@ export const OrderContextProvider = ({
     setShippingPayment(shippingPaymentData)
   }
 
+  useEffect(() => {
+    const totalValue = order.reduce((acc, orderItem) => {
+      return (
+        acc + Number((orderItem.coffee.value * orderItem.quantity).toFixed(2))
+      )
+    }, 0)
+    setTotalValueFromOrder(totalValue)
+    setTotalValueFromOrderWithFreight(totalValue + freight)
+  }, [order])
+
   return (
     <OrderContext.Provider
       value={{
         order,
         shippingPayment,
+        totalValueFromOrder,
+        freight,
+        totalValueFromOrderWithFreight,
         addCoffeeToOrder,
         addShippingPaymentData,
       }}
