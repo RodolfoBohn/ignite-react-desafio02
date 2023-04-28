@@ -38,8 +38,24 @@ export const OrderContextProvider = ({
   const [shippingPayment, setShippingPayment] =
     useState<ShippingPaymentProps | null>(null)
 
-  function addCoffeeToOrder(coffee: CoffeeOrderProps) {
-    setOrder((state) => [...state, coffee])
+  function newOrderCoffeeAlreadyOnOrderList(coffeeName: string): boolean {
+    return order.some((orderItem) => orderItem.coffee.name === coffeeName)
+  }
+
+  function addCoffeeToOrder(newOrder: CoffeeOrderProps) {
+    if (newOrderCoffeeAlreadyOnOrderList(newOrder.coffee.name)) {
+      setOrder((state) => {
+        return state.map((orderItem) => {
+          if (orderItem.coffee.name === newOrder.coffee.name) {
+            return newOrder
+          }
+          return orderItem
+        })
+      })
+      return
+    }
+
+    setOrder((state) => [...state, newOrder])
   }
 
   function addShippingPaymentData(shippingPaymentData: ShippingPaymentProps) {

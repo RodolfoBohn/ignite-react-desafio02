@@ -34,7 +34,11 @@ export const CoffeeQuantity = ({ coffee }: CoffeeFormProps) => {
         })}
       </label>
       <QuantityWrapper>
-        <IconWrapper onClick={handleRemoveCoffee} disabled={quantity <= 0}>
+        <IconWrapper
+          type="button"
+          onClick={handleRemoveCoffee}
+          disabled={quantity <= 0}
+        >
           <Minus size={14} />
         </IconWrapper>
         <input
@@ -44,7 +48,7 @@ export const CoffeeQuantity = ({ coffee }: CoffeeFormProps) => {
           min={0}
           value={quantity}
         />
-        <IconWrapper onClick={handleAddCoffee}>
+        <IconWrapper type="button" onClick={handleAddCoffee}>
           <Plus size={14} />
         </IconWrapper>
       </QuantityWrapper>
